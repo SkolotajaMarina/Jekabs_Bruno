@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)file:///C:/Users/J%C4%93kabsKokins/Downloads/index.html -->
+<html lang="lv" data-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Augu grāmata – Profils</title>
+
+  <style>
+    /* ===== Krāsu mainīgie ===== */
+    :root{
+      --bg:#7be44a;        /* dzeltenīgs fons visai lapai */
+      --card:#FFFFFF;      /* baltas kartītes/konteineri */
+      --text:#1c1e21;
+      --muted:#65676b;
+      --brand:#046f1b;     /* iedvesmots tonis */
+      --border:#e4e6eb;
+      --shadow: 0 10px 25px rgba(0,0,0,.08);
+    }
+
+    /* Tumšais režīms: šis strādā, ja data-theme tiek uzlikts UZ <html> elementa */
+    html[data-theme="dark"]{
+      --bg:#073b00;        /* tumšā režīma dzeltenbrūns fons */
+      --card:#242526;
+      --text:#e4e6eb;
+      --muted:#b0b3b8;
+      --brand:#dcee3d;
+      --border:#3a3b3c;
+      --shadow: 0 10px 25px rgba(0,0,0,.45);
+    }
+
+    /* ===== Bāze ===== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
+      line-height:1.5;
+    }
+
+    /* ===== Augšējā josla ===== */
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--bg); border-bottom:1px solid var(--border);
+      padding:.6rem .9rem;
+    }
+    .brand{display:flex; align-items:center; gap:.5rem; color:var(--brand); font-weight:800}
+    .brand__emoji{font-size:1.2rem}
+    .icon-btn{
+      background:transparent; border:1px solid var(--border); color:var(--text);
+      padding:.35rem .6rem; border-radius:.5rem; cursor:pointer;
+    }
+
+    /* ===== Titulbilde + profils ===== */
+    .cover-wrap{ position:relative; }
+    .cover{
+      width:100%;
+      /* Desktopā seklāka, telefonā augstāka */
+      aspect-ratio: 26/6;
+      object-fit:cover; display:block; background:#dfe3ee;
+    }
+
+    /* Baltais profila konteiners, kas pārklājas ar titulbildes apakšu */
+    .profile-bar{
+      background: var(--card);
+      position:relative;
+      display:flex; align-items:center; gap:1rem;
+      /* ŠEIT galvenās izmaiņas: profila bloka platums plūst līdzi ekrānam */
+      width: clamp(280px, 92vw, 920px);
+      margin: -48px auto 0;           /* pārklāšanās ar cover apakšu */
+      padding: .8rem 1rem;
+      border:1px solid var(--border);
+      border-radius:.9rem;
+      box-shadow: var(--shadow);
+    }
+
+    .avatar{
+      /* Avatāram arī plūstošs izmērs, bet ar minimumu */
+      width: clamp(56px, 8vw, 96px);
+      height: clamp(56px, 8vw, 96px);
+      border-radius:50%; object-fit:cover;
+      border:3px solid var(--card); box-shadow:var(--shadow); background:#cbd5e1;
+      flex: 0 0 auto;
+    }
+
+    .profile-info{ display:flex; flex-direction:column; min-width: 0; }
+    /* Nosaukums plūstoši samazinās */
+    .plant-name{
+      margin:.1rem 0 0 0;
+      font-size: clamp(1.05rem, 3.2vw, 1.7rem);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .muted{ color:var(--muted); }
+
+    /* ===== Saturs ===== */
+    .container{
+      width:min(1100px, 100%); margin: .8rem auto 2rem; padding: 0 1rem;
+    }
+
+    /* Konteineri (kartītes) – balti */
+    .cards{
+      display:grid; gap:1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 600px){
+      .cards{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 960px){
+      .cards{ grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:.8rem;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card__img{
+      width:100%; aspect-ratio: 4/3; object-fit:cover; background:#e5e7eb;
+      display:block;
+    }
+    .card__body{
+      padding:.75rem .9rem;
+    }
+    .card__title{ margin:0 0 .25rem; font-size:1rem; }
+    .card__text{ margin:0; color:var(--muted); }
+
+    /* ===== Adaptīvie pielāgojumi ===== */
+    @media (max-width: 900px){
+      .profile-bar{
+        gap:.8rem;
+        padding:.7rem .9rem;
+        margin-top: -42px;             /* mazliet mazāk pārklāšanās */
+        width: clamp(260px, 94vw, 840px);
+      }
+      .cover{ aspect-ratio: 16/7; }    /* telefonā cover nedaudz augstāks */
+    }
+
+    @media (max-width: 600px){
+      .profile-bar{
+        gap:.7rem;
+        padding:.6rem .8rem;
+        margin-top: -36px;
+        width: clamp(240px, 96vw, 720px);
+      }
+      .plant-name{ font-size: clamp(1rem, 4.2vw, 1.4rem); }
+    }
+
+    /* ===== Kājene ===== */
+    .footer{ text-align:center; color:var(--muted); padding: 2rem 1rem; }
+    /* ===== MODAL LOGS ===== */
+
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.modal-backdrop.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-window{
+  background: var(--card);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.2rem 1.4rem;
+  position: relative;
+  border: 1px solid var(--border);
+  animation: modalShow .3s ease;
+}
+
+@keyframes modalShow {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close{
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text);
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <!-- Virsraksta josla -->
+  <header class="topbar" aria-label="Galvenā navigācija">
+    <div class="brand">
+      <span class="brand__emoji">🌿</span>
+      <span class="brand__text">Augu grāmata</span>
+    </div>
+    <button id="themeToggle" class="icon-btn" aria-label="Tumšais/gaišais režīms" type="button">🌓</button>
+  </header>
+
+  <!-- Titulbilde + profila bloks -->
+  <section class="cover-wrap">
+    <!-- Titulbilde (nomainiet uz savu failu) -->
+    <img class="cover" id="coverImage" src="https://eu-prod.asyncgw.teams.microsoft.com/v1/fb8a66ca-f7dc-4e44-a7ec-b187a3cd6090/objects/0-csea-d5-00fad1ce78bddbfc6b36d767708bf4f4/views/imgpsh_fullsize">
+
+    <!-- Pārklājošs profils (balts konteiners, elastīgs) -->
+    <div class="profile-bar">
+      <img class="avatar" id="avatarImage" src="https://eu-prod.asyncgw.teams.microsoft.com/v1/fb8a66ca-f7dc-4e44-a7ec-b187a3cd6090/objects/0-csea-d21-0d06aefc8d86c1acfa37dcd261e5b4b8/views/imgpsh_fullsize" alt="image.png">
+      <div class="profile-info">
+        <h1 id="plantName" class="plant-name">Melnā driģene <span class="muted">(hyoscyamus niger)</span></h1>
+        <p class="muted">Nakteņu dzimta (Solanaceae)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mazie konteineri (kartītes) -->
+  <main class="container">
+    <section class="cards" id="cards"><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Iepazīsties ar mani!" src="Augu%20grāmata%20%20pabeigts_files/indiga_melna_drigene-600x315.jpg"><div class="card__body"><h3 class="card__title">Iepazīsties ar mani!</h3><p class="card__text">Mans izskats: </p></div></article><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Mani sauc!" src="Augu%20grāmata%20%20pabeigts_files/imgpsh_fullsize(1)"><div class="card__body"><h3 class="card__title">Mani sauc!</h3><p class="card__text">Melnā driģene (hyoscyamus niger). Mana ģimene ir nakteņu dzimta. ģimenes raksturojums- mēs esam izplatīti visā pasaulē un tropiskos reģionos.</p></div></article><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Tu mani vari atpazīsi pēc šādas zieda formulas: ." src="Augu%20grāmata%20%20pabeigts_files/imgpsh_fullsize(2)"><div class="card__body"><h3 class="card__title">Tu mani vari atpazīsi pēc šādas zieda formulas: .</h3><p class="card__text">K(5) V(5) P5 A2</p></div></article><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Mani pēcnācēji." src="Augu%20grāmata%20%20pabeigts_files/3364261895_43308b7592_z.jpg"><div class="card__body"><h3 class="card__title">Mani pēcnācēji.</h3><p class="card__text">Augļi ir pogveida kapsula tipa ar daudz sēklām, kas izplēšas vai atveras, lai atbrīvotu daudz sīku sēkliņu, augļi ir vienā dzimumā.</p></div></article><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Tu parasti mani vari sastapt." src="Augu%20grāmata%20%20pabeigts_files/imgpsh_fullsize(3)"><div class="card__body"><h3 class="card__title">Tu parasti mani vari sastapt.</h3><p class="card__text">Parasti mani var sastap pie akmeņiem starp akmeņiem un reti laukos</p></div></article><article class="card" tabindex="0" style="cursor: pointer;"><img class="card__img" alt="Mani var atpazīt ar šādām īpašībām." src="Augu%20grāmata%20%20pabeigts_files/2065.png"><div class="card__body"><h3 class="card__title">Mani var atpazīt ar šādām īpašībām.</h3><p class="card__text">Stumbrs Koksnains, taisns, ar pelēcīgi brūnu mizu. Lapu sakārtojums pie stumbra Lapu sakārtojums pie stumbra ir pretējs</p></div></article></section>
+  </main>
+
+  <footer class="footer">
+    <div id="modal" class="modal-backdrop">
+      <div class="modal-window">
+        <button class="modal-close" id="modalClose">✖</button>
+        <h2 id="modalTitle"></h2>
+        <p id="modalText"></p>
+        <img id="modalImg" style="width:100%; border-radius:.6rem; margin-top:.8rem;">
+      </div>
+    </div>
+    <small>© 2026 Augu grāmata – mācību projekts. Projektu veica: Jēkabs Kokins un Bruno Brengulis</small>
+  </footer>
+
+  <script>
+    (function(){
+      /* ========== Tumšā/gaišā režīma loģika ========== */
+      const LS_THEME = 'pb_theme';
+      const root = document.documentElement; // <html>
+      const themeToggle = document.getElementById('themeToggle');
+
+      // Atjauno tēmu no localStorage (ja ir)
+      const saved = localStorage.getItem(LS_THEME);
+      if (saved === 'dark' || saved === 'light') {
+        root.setAttribute('data-theme', saved);
+      }
+
+      // Pārslēdz tēmu ar pogu
+      themeToggle.addEventListener('click', () => {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        const next = isDark ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem(LS_THEME, next);
+      });
+
+      /* ========== Kartīšu ielāde ========== */
+      const cardsWrap = document.getElementById('cards');
+
+      const cards = [
+        {
+          title: 'Iepazīsties ar mani!',
+          text: 'Man ir balti dzeltenas lapas ar violētām īnijām un ar melnu ziedu',
+          img: 'puķe2.jpg'
+        },
+        {
+          title: 'Mani sauc!',
+          text: 'Melnā driģene (hyoscyamus niger). Mana ģimene ir nakteņu dzimta. ģimenes raksturojums- mēs esam izplatīti visā pasaulē un tropiskos reģionos.',
+          img: 'https://eu-prod.asyncgw.teams.microsoft.com/v1/fb8a66ca-f7dc-4e44-a7ec-b187a3cd6090/objects/0-csea-d5-00fad1ce78bddbfc6b36d767708bf4f4/views/imgpsh_fullsize'
+        },
+        {
+          title: 'Tu mani vari atpazīsi pēc šādas zieda formulas: .',
+          text: 'K(5) V(5) P5 A2',
+          img: 'https://eu-prod.asyncgw.teams.microsoft.com/v1/fb8a66ca-f7dc-4e44-a7ec-b187a3cd6090/objects/0-csea-d20-983ff57686a32a097fcec9cdfbbe06d9/views/imgpsh_fullsize'
+        },
+         {
+          title: 'Mani pēcnācēji.',
+          text: 'Augļi ir pogveida kapsula tipa ar daudz sēklām, kas izplēšas vai atveras, lai atbrīvotu daudz sīku sēkliņu, augļi ir vienā dzimumā.',
+          img: 'puķe5.jpg'
+        },
+         {
+          title: 'Tu parasti mani vari sastapt.',
+          text: 'Parasti mani var sastap pie akmeņiem starp akmeņiem un reti laukos',
+          img: 'puķe4.jpg'
+        },
+        {
+          title: 'Mani var atpazīt ar šādām īpašībām.',
+          text: 'Stumbrs Koksnains, taisns, ar pelēcīgi brūnu mizu. Lapu sakārtojums pie stumbra Lapu sakārtojums pie stumbra ir pretējs',
+          img: 'puķe6.png'
+        },
+      ];
+      function renderCards(){
+        cardsWrap.replaceChildren(
+          ...cards.map(c => cardEl(c))
+        );
+      }
+
+      function cardEl(c){
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.tabIndex = 0; 
+  card.style.cursor = 'pointer';
+
+  card.addEventListener('click', () => openModal(c));
+
+  const img = document.createElement('img');
+  img.className = 'card__img';
+  img.alt = c.title;
+  img.src = c.img;
+
+  const body = document.createElement('div');
+  body.className = 'card__body';
+
+  const h3 = document.createElement('h3');
+  h3.className = 'card__title';
+  h3.textContent = c.title;
+
+  const p = document.createElement('p');
+  p.className = 'card__text';
+  p.textContent = c.text;
+
+  body.append(h3, p);
+  card.append(img, body);
+  return card;
+}
+
+      renderCards();
+/* ===== Modal logika ===== */
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
+const modalText = document.getElementById('modalText');
+const modalImg = document.getElementById('modalImg');
+const modalClose = document.getElementById('modalClose');
+
+function openModal(c){
+  modalTitle.textContent = c.title;
+  modalText.textContent = c.text;
+  modalImg.src = c.img;
+
+  modal.classList.add('active');
+}
+
+function closeModal(){
+  modal.classList.remove('active');
+}
+
+modalClose.addEventListener('click', closeModal);
+
+// Aizver, klikšķinot ārpus lodziņa
+modal.addEventListener('click', e => {
+  if (e.target === modal) closeModal();
+});
+
+// Aizver ar ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+    })();
+  </script>
+
+
+</body></html>
